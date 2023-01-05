@@ -27,6 +27,7 @@
 #include <core/multiprocessing.h>
 #include <core/partition.h>
 #include <core/sched.h>
+#include <core/my_sched.h>
 #include <core/thread.h>
 #include <core/time.h>
 #include <dependencies.h>
@@ -66,9 +67,20 @@ void pok_partition_setup_scheduler(const uint8_t pid) {
      * Default scheduling algorithm is Round Robin.
      * Yes, it sucks
      */
+  case POK_MY_SCHED_PRIO:
+    pok_partitions[pid].sched_func = &pok_my_sched_part_prio;
+    break;
+  case POK_MY_SCHED_EDF:
+    pok_partitions[pid].sched_func = &pok_my_sched_part_edf;
+    break;
+  case POK_MY_SCHED_WRR:
+    pok_partitions[pid].sched_func = &pok_my_sched_part_wrr;
+    break;
+  case POK_MY_SCHED_RR:
+    pok_partitions[pid].sched_func = &pok_my_sched_part_rr;
+    break;
   default:
     pok_partitions[pid].sched_func = &pok_sched_part_rr;
-    break;
   }
 #else
   pok_partitions[pid].sched_func = &pok_sched_part_rr;

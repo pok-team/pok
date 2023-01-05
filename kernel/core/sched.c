@@ -215,6 +215,7 @@ uint32_t pok_elect_thread(uint8_t new_partition_id) {
         assert(thread->time_capacity);
         thread->state = POK_STATE_RUNNABLE;
         thread->remaining_time_capacity = thread->time_capacity;
+        thread->ab_deadline = thread->next_activation + thread->deadline;
         thread->next_activation = thread->next_activation + thread->period;
       }
     }
@@ -223,7 +224,7 @@ uint32_t pok_elect_thread(uint8_t new_partition_id) {
   /*
    * We elect the thread to be executed.
    */
-  uint32_t elected;
+  uint32_t elected = -1;
   switch (new_partition->mode) {
   case POK_PARTITION_MODE_INIT_COLD:
   case POK_PARTITION_MODE_INIT_WARM:
@@ -253,7 +254,7 @@ uint32_t pok_elect_thread(uint8_t new_partition_id) {
         (POK_SCHED_CURRENT_THREAD != POK_CURRENT_PARTITION.thread_error)) {
       if (POK_CURRENT_THREAD.remaining_time_capacity > 0) {
         POK_CURRENT_THREAD.remaining_time_capacity =
-            POK_CURRENT_THREAD.remaining_time_capacity - 1;
+            POK_CURRENT_THREAD.remaining_time_capacity - POK_LAB_SCHED_TIME;
       } else if (POK_CURRENT_THREAD.time_capacity >
                  0) // Wait next activation only for thread
                     // with non-infinite capacity (could be
@@ -282,7 +283,6 @@ uint32_t pok_elect_thread(uint8_t new_partition_id) {
   if (pok_threads[POK_SCHED_CURRENT_THREAD].time_capacity > 0)
     pok_threads[elected].end_time =
         now + pok_threads[elected].remaining_time_capacity;
-
   return elected;
 }
 
