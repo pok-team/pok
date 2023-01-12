@@ -73,6 +73,9 @@ typedef struct {
   int64_t ab_deadline;
   uint8_t current_queue;
   uint8_t current_queue_run_time;
+  bool_t isThread2;
+  bool_t isThread3;
+  uint32_t round;
   /* stack pointer
    * FIXME: this is platform-dependent code, we have to handle that ! */
 } pok_thread_t;
@@ -90,6 +93,8 @@ typedef struct {
   bool_t dynamic; // TRUE when creating thread in NORMAL mode
   uint8_t current_queue;
   uint8_t current_queue_run_time;
+  bool_t isThread2;
+  bool_t isThread3;
 } pok_thread_attr_t;
 /*
  * Attributes given to create a thread

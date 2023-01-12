@@ -6,6 +6,7 @@
 #include <core/partition.h>
 
 extern pok_thread_t pok_threads[];
+uint32_t round = 0;
 
 uint32_t pok_my_sched_part_prio(const uint32_t index_low, const uint32_t index_high,
                            const uint32_t prev_thread,
@@ -77,6 +78,12 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
   do {
       if (pok_threads[elected].state == POK_STATE_RUNNABLE
       &&pok_threads[elected].ab_deadline<pok_threads[res].ab_deadline) {
+            if(elected == 3){
+              if(pok_threads[elected].round >= round){
+                elected ++;
+                continue;
+              }
+            }
             res = elected;
         }
         elected++;
@@ -84,7 +91,10 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
           elected = index_low;
         }
     } while (elected != from);
-    /* #ifdef POK_NEEDS_DEBUG
+  if(res == 2 && pok_threads[res].remaining_time_capacity == 0){
+    round++;
+  }
+   #ifdef POK_NEEDS_DEBUG
     uint8_t current_proc = pok_get_proc_id();
     // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
     if(res == IDLE_THREAD){
@@ -105,23 +115,7 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
       (unsigned)(pok_threads[res].ab_deadline),
       (unsigned)(POK_GETTICK()));
     }
-    // if(res != IDLE_THREAD){
-    //   uint32_t first =1;
-    //   for (uint32_t i = index_low + 1; i < index_high; i++) {
-    //     if (pok_threads[i].state == POK_STATE_RUNNABLE &&
-    //         pok_threads[i].processor_affinity == current_proc) {
-    //       if (i != elected) {
-    //         printf("%s %d (%u)", first ? "    --- other ready: " : ",", i,
-    //                (unsigned)(pok_threads[i].ab_deadline));
-    //         first = 0;
-    //       }
-    //     }
-    //   }
-    //   if (!first) {
-    //     printf("\n");
-    //   }
-    // }
-  #endif */
+  #endif
   return res;
 }
 

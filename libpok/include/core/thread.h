@@ -38,6 +38,8 @@ typedef struct {
   bool_t dynamic; // TRUE when creating thread in NORMAL mode
   uint8_t current_queue;
   uint8_t current_queue_run_time;
+  bool_t isThread2;
+  bool_t isThread3;
 } pok_thread_attr_t;
 
 void pok_thread_init(void);

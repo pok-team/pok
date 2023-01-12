@@ -80,6 +80,7 @@ void pok_idle_thread_init() {
     pok_threads[IDLE_THREAD - i].processor_affinity = i;
     pok_threads[IDLE_THREAD - i].base_priority = pok_sched_get_priority_min(0);
     pok_threads[IDLE_THREAD - i].state = POK_STATE_RUNNABLE;
+    pok_threads[IDLE_THREAD - i].round = 0;
 
     pok_threads[IDLE_THREAD - i].sp = pok_context_create(
         IDLE_THREAD - i, IDLE_STACK_SIZE, (uint32_t)pok_arch_idle);
@@ -112,6 +113,7 @@ void pok_thread_init(void) {
     pok_threads[i].period = INFINITE_TIME_VALUE;
     pok_threads[i].deadline = 0;
     pok_threads[i].ab_deadline = 0;
+    pok_threads[i].round = 0;
     pok_threads[i].time_capacity = INFINITE_TIME_VALUE;
     pok_threads[i].remaining_time_capacity = -1;
     pok_threads[i].next_activation = 0;
@@ -120,6 +122,8 @@ void pok_thread_init(void) {
     pok_threads[i].processor_affinity = 0;
     pok_threads[i].weight = 1;
     pok_threads[i].remaining_round = POK_LAB_SCHED_ROUND;
+    pok_threads[i].isThread2 = FALSE;
+    pok_threads[i].isThread3 = FALSE;
   }
   pok_idle_thread_init();
 }
@@ -172,6 +176,14 @@ pok_ret_t pok_partition_thread_create(uint32_t *thread_id,
 
   if (attr->weight > 0){
     pok_threads[id].weight = attr->weight;
+  }
+
+  if(attr->isThread2){
+    pok_threads[id].isThread2 = TRUE;
+  }
+
+  if(attr->isThread3){
+    pok_threads[id].isThread3 = TRUE;
   }
 
   if (attr->deadline > 0) {
