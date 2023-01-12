@@ -16,7 +16,7 @@ __pycache__/
 *.elf
 *.map
 *.bin
-*.mk
+
 *.img
 *.pid
 .depend
