@@ -11,7 +11,7 @@ uint32_t pok_my_sched_part_prio(const uint32_t index_low, const uint32_t index_h
                            const uint32_t prev_thread,
                            const uint32_t current_thread) {
   uint32_t elected, from;
-  uint8_t current_proc = pok_get_proc_id();
+  // uint8_t current_proc = pok_get_proc_id();
   uint32_t res = IDLE_THREAD;
   from = current_thread == IDLE_THREAD? prev_thread:current_thread;
   elected = from;
@@ -26,6 +26,7 @@ uint32_t pok_my_sched_part_prio(const uint32_t index_low, const uint32_t index_h
         }
     } while (elected != from);
   #ifdef POK_NEEDS_DEBUG
+    uint8_t current_proc = pok_get_proc_id();
     // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
     if(res == IDLE_THREAD){
       printf("Idle at %u.\n",(unsigned)(POK_GETTICK()));
@@ -69,7 +70,7 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
                            const uint32_t prev_thread,
                            const uint32_t current_thread) {
   uint32_t elected, from;
-  uint8_t current_proc = pok_get_proc_id();
+  // uint8_t current_proc = pok_get_proc_id();
   uint32_t res = IDLE_THREAD;
   from = current_thread == IDLE_THREAD? prev_thread:current_thread;
   elected = from;
@@ -83,7 +84,8 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
           elected = index_low;
         }
     } while (elected != from);
-    #ifdef POK_NEEDS_DEBUG
+    /* #ifdef POK_NEEDS_DEBUG
+    uint8_t current_proc = pok_get_proc_id();
     // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
     if(res == IDLE_THREAD){
       printf("Idle at %u.\n",(unsigned)(POK_GETTICK()));
@@ -119,7 +121,7 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
     //     printf("\n");
     //   }
     // }
-  #endif
+  #endif */
   return res;
 }
 
@@ -129,7 +131,7 @@ uint32_t my_rr(const uint32_t index_low, const uint32_t index_high,
   
   
   uint32_t elected, from;
-  uint8_t current_proc = pok_get_proc_id();
+  // uint8_t current_proc = pok_get_proc_id();
   uint32_t res = IDLE_THREAD;
 
   from = current_thread == IDLE_THREAD? prev_thread:current_thread;
@@ -161,7 +163,8 @@ uint32_t my_rr(const uint32_t index_low, const uint32_t index_high,
       pok_threads[res].remaining_round --;
     }
   }
-    #ifdef POK_NEEDS_DEBUG
+     #ifdef POK_NEEDS_DEBUG
+    uint8_t current_proc = pok_get_proc_id();
     // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
     if(res == IDLE_THREAD){
       printf("Idle at %u.\n",(unsigned)(POK_GETTICK()));
@@ -197,7 +200,7 @@ uint32_t my_rr(const uint32_t index_low, const uint32_t index_high,
     //     printf("\n");
     //   }
     // }
-  #endif
+  #endif 
   return res;
 }
 
