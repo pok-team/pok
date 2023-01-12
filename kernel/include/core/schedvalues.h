@@ -26,7 +26,8 @@ typedef enum {
   POK_MY_SCHED_PRIO = 7,
   POK_MY_SCHED_EDF = 8,
   POK_MY_SCHED_RR = 9,
-  POK_MY_SCHED_WRR = 10
+  POK_MY_SCHED_WRR = 10,
+  POK_MY_SCHED_PRIO_EDF = 11
 } pok_sched_t;
 
 #endif
