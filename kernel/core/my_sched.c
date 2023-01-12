@@ -218,6 +218,7 @@ uint32_t pok_my_sched_part_wrr(const uint32_t index_low, const uint32_t index_hi
 uint32_t pok_my_sched_part_prio_edf(const uint32_t index_low, const uint32_t index_high,
                            const uint32_t prev_thread,
                            const uint32_t current_thread) {
+  static uint32_t last_finished_thread = 0;
   uint32_t elected, from;
   // uint8_t current_proc = pok_get_proc_id();
   uint32_t res = IDLE_THREAD;
@@ -235,43 +236,27 @@ uint32_t pok_my_sched_part_prio_edf(const uint32_t index_low, const uint32_t ind
         elected = index_low;
       }
     } while (elected != from);
-  #ifdef POK_NEEDS_DEBUG
-    uint8_t current_proc = pok_get_proc_id();
-    // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
+  #ifdef POK_NEEDS_LIGHTER_REPORT
+    if(from != last_finished_thread && pok_threads[from].remaining_time_capacity <= 0){
+      uint64_t now = POK_GETTICK();
+      printf("Thread %u finished at %u, deadline %s, next activation: %u\n",
+              from,
+              (unsigned)now,
+              (uint64_t)pok_threads[from].ab_deadline >= now ? "met" : "missed",
+              (uint64_t)pok_threads[from].next_activation == now ? 
+                (unsigned)(now+pok_threads[from].period) : (unsigned)pok_threads[from].next_activation);
+      last_finished_thread = from;
+    }
+
     if(res == IDLE_THREAD){
       printf("Idle at %u.\n",(unsigned)(POK_GETTICK()));
     }
     else if(pok_threads[res].remaining_time_capacity == pok_threads[res].time_capacity){
-      printf("P%hhdT%d: Start scheduling (priority: %d) at %u\n",
-      current_proc,
+      printf("Thread %d started scheduling at %u\n",
       res,
-      pok_threads[res].priority,
       (unsigned)(POK_GETTICK()));
     }
-    else{
-      printf("P%hhdT%d: Remaining time:%u (priority: %d) at %u\n",
-      current_proc,
-      res,
-      (unsigned)(pok_threads[res].remaining_time_capacity),
-      pok_threads[res].priority,
-      (unsigned)(POK_GETTICK()));
-    }
-    // if(res != IDLE_THREAD){
-    //   uint32_t first =1;
-    //   for (uint32_t i = index_low + 1; i < index_high; i++) {
-    //     if (pok_threads[i].state == POK_STATE_RUNNABLE &&
-    //         pok_threads[i].processor_affinity == current_proc) {
-    //       if (i != elected) {
-    //         printf("%s %d (%d)", first ? "    --- other ready: " : ",", i,
-    //                pok_threads[i].priority);
-    //         first = 0;
-    //       }
-    //     }
-    //   }
-    //   if (!first) {
-    //     printf("\n");
-    //   }
-    // }
+
   #endif
   return res;
 }

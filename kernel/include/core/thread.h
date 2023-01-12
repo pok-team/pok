@@ -26,10 +26,8 @@
  * is used to save processor resources.
  */
 
-#define KERNEL_THREAD (POK_CONFIG_NB_THREADS - 1)
-#define IDLE_THREAD (POK_CONFIG_NB_THREADS - 2 - (uint32_t)(pok_get_proc_id()))
-// #define KERNEL_THREAD (POK_CONFIG_NB_THREADS - 2)
-// #define IDLE_THREAD POK_CONFIG_NB_THREADS -1 
+#define KERNEL_THREAD POK_CONFIG_NB_THREADS - 2
+#define IDLE_THREAD POK_CONFIG_NB_THREADS - 1 - (uint32_t)(pok_get_proc_id())
 
 #define INFINITE_TIME_VALUE (-1)
 #define POK_THREAD_DEFAULT_TIME_CAPACITY INFINITE_TIME_VALUE

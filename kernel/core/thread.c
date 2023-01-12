@@ -69,12 +69,12 @@ void pok_idle_thread_init() {
 
   for (int i = 0; i < POK_CONFIG_NB_PROCESSORS; i++) {
 
-    pok_threads[IDLE_THREAD - i].period = INFINITE_TIME_VALUE;
-    pok_threads[IDLE_THREAD - i].deadline = 100000;
-    pok_threads[IDLE_THREAD - i].ab_deadline = 100000;
-    pok_threads[IDLE_THREAD - i].time_capacity = INFINITE_TIME_VALUE;
+    pok_threads[IDLE_THREAD - i].period = 0;
+    pok_threads[IDLE_THREAD - i].deadline = 0;
+    pok_threads[IDLE_THREAD - i].ab_deadline = 0;
+    pok_threads[IDLE_THREAD - i].time_capacity = 0;
     pok_threads[IDLE_THREAD - i].next_activation = 0;
-    pok_threads[IDLE_THREAD - i].remaining_time_capacity = 100000;
+    pok_threads[IDLE_THREAD - i].remaining_time_capacity = 0;
     pok_threads[IDLE_THREAD - i].wakeup_time = 0;
     pok_threads[IDLE_THREAD - i].entry = pok_arch_idle;
     pok_threads[IDLE_THREAD - i].processor_affinity = i;

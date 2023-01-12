@@ -210,9 +210,22 @@ uint32_t pok_elect_thread(uint8_t new_partition_id) {
       }
 #endif
 
-      if ((thread->state == POK_STATE_WAIT_NEXT_ACTIVATION) &&
-          (thread->next_activation <= now)) {
+      if ((thread->state == POK_STATE_WAIT_NEXT_ACTIVATION && thread->next_activation <= now)
+        || (thread->state == POK_STATE_RUNNABLE && thread->remaining_time_capacity == 0 
+                                              && thread->next_activation == now)) {
         assert(thread->time_capacity);
+#ifdef POK_NEEDS_LIGHTER_REPORT
+        if (thread->deadline > 0) {
+          printf("Thread %u activated at %u, deadline at %u\n",
+                (unsigned)i,
+                (unsigned)thread->next_activation,
+                (unsigned)(thread->next_activation + thread->deadline));
+        } else {
+          printf("Thread %u activated at %u\n",
+                (unsigned)i,
+                (unsigned)thread->next_activation);
+        }
+#endif // POK_NEEDS_LIGHTER_REPORT
         thread->state = POK_STATE_RUNNABLE;
         thread->remaining_time_capacity = thread->time_capacity;
         thread->ab_deadline = thread->next_activation + thread->deadline;
@@ -255,13 +268,16 @@ uint32_t pok_elect_thread(uint8_t new_partition_id) {
       if (POK_CURRENT_THREAD.remaining_time_capacity > 0) {
         POK_CURRENT_THREAD.remaining_time_capacity =
             POK_CURRENT_THREAD.remaining_time_capacity - POK_LAB_SCHED_TIME;
-      } else if (POK_CURRENT_THREAD.time_capacity >
-                 0) // Wait next activation only for thread
-                    // with non-infinite capacity (could be
-                    // infinite with value -1 <--> INFINITE_TIME_CAPACITY)
-      {
-        POK_CURRENT_THREAD.state = POK_STATE_WAIT_NEXT_ACTIVATION;
-      }
+        if (POK_CURRENT_THREAD.remaining_time_capacity == 0 && POK_CURRENT_THREAD.time_capacity > 0)
+          POK_CURRENT_THREAD.state = POK_STATE_WAIT_NEXT_ACTIVATION;
+      } 
+      // else if (POK_CURRENT_THREAD.time_capacity >
+      //            0) // Wait next activation only for thread
+      //               // with non-infinite capacity (could be
+      //               // infinite with value -1 <--> INFINITE_TIME_CAPACITY)
+      // {
+      //   POK_CURRENT_THREAD.state = POK_STATE_WAIT_NEXT_ACTIVATION;
+      // }
     }
     elected = new_partition->sched_func(
         new_partition->thread_index_low, new_partition->thread_index_high,
