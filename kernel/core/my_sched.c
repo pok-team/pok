@@ -214,3 +214,85 @@ uint32_t pok_my_sched_part_wrr(const uint32_t index_low, const uint32_t index_hi
                            const uint32_t current_thread) {
   return my_rr(index_low,index_high,prev_thread,current_thread,TRUE); 
                            }
+
+uint32_t pok_my_sched_part_mlfq(const uint32_t index_low, const uint32_t index_high,
+                           const uint32_t prev_thread,
+                           const uint32_t current_thread) {
+  uint32_t elected, from;
+  // uint8_t current_proc = pok_get_proc_id();
+  uint32_t res = IDLE_THREAD;
+  from = current_thread == IDLE_THREAD? prev_thread:current_thread;
+  elected = from;
+  do {
+      if(((unsigned)(POK_GETTICK())!=0) && ((unsigned)(POK_GETTICK())%RESET == 0))
+      {
+        pok_threads[elected].current_queue = 0;
+        pok_threads[elected].current_queue_run_time = 0;
+      }
+      if (pok_threads[elected].state == POK_STATE_RUNNABLE && 
+          pok_threads[elected].current_queue <= pok_threads[res].current_queue) {
+            res = elected;
+        }
+        elected++;
+        if (elected >= index_high) {
+          elected = index_low;
+        }
+  } while (elected != from);
+
+
+  if(pok_threads[res].remaining_time_capacity == pok_threads[res].time_capacity)
+  {
+    pok_threads[res].current_queue = 0;
+    pok_threads[res].current_queue_run_time = 0;
+  }
+
+  int flag = 0;
+
+  if(pok_threads[res].current_queue_run_time >= pok_threads[res].current_queue+1)
+  {
+    if(pok_threads[res].current_queue < QUEUE_NUMBER-1)
+    {
+      pok_threads[res].current_queue++;
+      pok_threads[res].current_queue_run_time = 0;
+      flag = 1;
+    }
+  }
+  
+  #ifdef POK_NEEDS_DEBUG
+    uint8_t current_proc = pok_get_proc_id();
+    if(flag && res != IDLE_THREAD){
+      printf("P%hhdT%d: Decrease to queue:%u at %u\n",
+      current_proc,
+      res,
+      (unsigned)(pok_threads[res].current_queue),
+      (unsigned)(POK_GETTICK()));
+    }
+
+    // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
+    if(((unsigned)(POK_GETTICK())!=0) && ((unsigned)(POK_GETTICK())%RESET == 0)){
+        printf("RESET happen at %u.\n",(unsigned)(POK_GETTICK()));
+    }
+    if(res == IDLE_THREAD){
+      printf("Idle at %u.\n",(unsigned)(POK_GETTICK()));
+    }
+    else if(pok_threads[res].remaining_time_capacity == pok_threads[res].time_capacity){
+      printf("P%hhdT%d: Start scheduling (queue: %d) at %u\n",
+      current_proc,
+      res,
+      pok_threads[res].current_queue,
+      (unsigned)(POK_GETTICK()));
+    }
+    else{
+      printf("P%hhdT%d: Remaining time:%u (queue: %d) at %u\n",
+      current_proc,
+      res,
+      (unsigned)(pok_threads[res].remaining_time_capacity),
+      pok_threads[res].current_queue,
+      (unsigned)(POK_GETTICK()));
+    }
+  #endif
+
+  pok_threads[res].current_queue_run_time ++;
+
+  return res;
+}

@@ -45,6 +45,11 @@
 
 #ifndef POK_USER_STACK_SIZE
 #define POK_USER_STACK_SIZE DEFAULT_STACK_SIZE
+
+// MLFQ的队列数量
+#define QUEUE_NUMBER 3
+// 到达400就进行RESET操作，将系统中所有工作重新加入最高优先级队列
+#define RESET 400
 #endif
 
 typedef struct {
@@ -66,6 +71,8 @@ typedef struct {
   uint8_t weight;
   uint8_t remaining_round;
   int64_t ab_deadline;
+  uint8_t current_queue;
+  uint8_t current_queue_run_time;
   /* stack pointer
    * FIXME: this is platform-dependent code, we have to handle that ! */
 } pok_thread_t;
@@ -81,6 +88,8 @@ typedef struct {
   pok_state_t state;
   uint8_t weight;
   bool_t dynamic; // TRUE when creating thread in NORMAL mode
+  uint8_t current_queue;
+  uint8_t current_queue_run_time;
 } pok_thread_attr_t;
 /*
  * Attributes given to create a thread
