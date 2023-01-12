@@ -1,9 +1,11 @@
+#include "../../mytests/part4/pr1/main.h"
 #include <libc.h>
 #include <core/my_sched.h>
 #include <core/time.h>
 #include <core/sched.h>
 #include <core/thread.h>
 #include <core/partition.h>
+#include <types.h>
 
 extern pok_thread_t pok_threads[];
 
@@ -11,7 +13,6 @@ uint32_t pok_my_sched_part_prio(const uint32_t index_low, const uint32_t index_h
                            const uint32_t prev_thread,
                            const uint32_t current_thread) {
   uint32_t elected, from;
-  // uint8_t current_proc = pok_get_proc_id();
   uint32_t res = IDLE_THREAD;
   from = current_thread == IDLE_THREAD? prev_thread:current_thread;
   elected = from;
@@ -25,6 +26,9 @@ uint32_t pok_my_sched_part_prio(const uint32_t index_low, const uint32_t index_h
           elected = index_low;
         }
     } while (elected != from);
+  if(pok_threads[res].isThread2){
+    create_task_3();
+  }
   #ifdef POK_NEEDS_DEBUG
     uint8_t current_proc = pok_get_proc_id();
     // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
@@ -46,22 +50,6 @@ uint32_t pok_my_sched_part_prio(const uint32_t index_low, const uint32_t index_h
       pok_threads[res].priority,
       (unsigned)(POK_GETTICK()));
     }
-    // if(res != IDLE_THREAD){
-    //   uint32_t first =1;
-    //   for (uint32_t i = index_low + 1; i < index_high; i++) {
-    //     if (pok_threads[i].state == POK_STATE_RUNNABLE &&
-    //         pok_threads[i].processor_affinity == current_proc) {
-    //       if (i != elected) {
-    //         printf("%s %d (%d)", first ? "    --- other ready: " : ",", i,
-    //                pok_threads[i].priority);
-    //         first = 0;
-    //       }
-    //     }
-    //   }
-    //   if (!first) {
-    //     printf("\n");
-    //   }
-    // }
   #endif
   return res;
 }
@@ -84,9 +72,11 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
           elected = index_low;
         }
     } while (elected != from);
-    /* #ifdef POK_NEEDS_DEBUG
+  if(pok_threads[res].isThread2){
+    create_task_3();
+  }
+    #ifdef POK_NEEDS_DEBUG
     uint8_t current_proc = pok_get_proc_id();
-    // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
     if(res == IDLE_THREAD){
       printf("Idle at %u.\n",(unsigned)(POK_GETTICK()));
     }
@@ -105,23 +95,7 @@ uint32_t pok_my_sched_part_edf(const uint32_t index_low, const uint32_t index_hi
       (unsigned)(pok_threads[res].ab_deadline),
       (unsigned)(POK_GETTICK()));
     }
-    // if(res != IDLE_THREAD){
-    //   uint32_t first =1;
-    //   for (uint32_t i = index_low + 1; i < index_high; i++) {
-    //     if (pok_threads[i].state == POK_STATE_RUNNABLE &&
-    //         pok_threads[i].processor_affinity == current_proc) {
-    //       if (i != elected) {
-    //         printf("%s %d (%u)", first ? "    --- other ready: " : ",", i,
-    //                (unsigned)(pok_threads[i].ab_deadline));
-    //         first = 0;
-    //       }
-    //     }
-    //   }
-    //   if (!first) {
-    //     printf("\n");
-    //   }
-    // }
-  #endif */
+  #endif 
   return res;
 }
 
@@ -163,16 +137,15 @@ uint32_t my_rr(const uint32_t index_low, const uint32_t index_high,
       pok_threads[res].remaining_round --;
     }
   }
+  if(pok_threads[res].isThread2){
+    create_task_3();
+  }
      #ifdef POK_NEEDS_DEBUG
     uint8_t current_proc = pok_get_proc_id();
-    // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
     if(res == IDLE_THREAD){
       printf("Idle at %u.\n",(unsigned)(POK_GETTICK()));
     }
     else if(pok_threads[res].remaining_time_capacity == pok_threads[res].time_capacity){
-      // printf("Time %u: Start scheduling thread %d\n",
-      // (unsigned)POK_GETTICK(),
-      // res);
       printf("P%hhdT%d: Start scheduling at %u\n",
       current_proc,
       res,
@@ -185,21 +158,6 @@ uint32_t my_rr(const uint32_t index_low, const uint32_t index_high,
       (unsigned)(pok_threads[res].remaining_time_capacity),
       (unsigned)(POK_GETTICK()));
     }
-    // if(res != IDLE_THREAD){
-    //   uint32_t first =1;
-    //   for (uint32_t i = index_low + 1; i < index_high; i++) {
-    //     if (pok_threads[i].state == POK_STATE_RUNNABLE &&
-    //         pok_threads[i].processor_affinity == current_proc) {
-    //       if (i != elected) {
-    //         printf("%s %d", first ? "    --- other ready: " : ",", i);
-    //         first = 0;
-    //       }
-    //     }
-    //   }
-    //   if (!first) {
-    //     printf("\n");
-    //   }
-    // }
   #endif 
   return res;
 }
@@ -219,7 +177,6 @@ uint32_t pok_my_sched_part_mlfq(const uint32_t index_low, const uint32_t index_h
                            const uint32_t prev_thread,
                            const uint32_t current_thread) {
   uint32_t elected, from;
-  // uint8_t current_proc = pok_get_proc_id();
   uint32_t res = IDLE_THREAD;
   from = current_thread == IDLE_THREAD? prev_thread:current_thread;
   elected = from;
@@ -257,7 +214,9 @@ uint32_t pok_my_sched_part_mlfq(const uint32_t index_low, const uint32_t index_h
       flag = 1;
     }
   }
-  
+  if(pok_threads[res].isThread2){
+    create_task_3();
+  }
   #ifdef POK_NEEDS_DEBUG
     uint8_t current_proc = pok_get_proc_id();
     if(flag && res != IDLE_THREAD){

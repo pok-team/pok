@@ -4,6 +4,13 @@
         "types.h": "c",
         "my_sched.h": "c",
         "libc.h": "c",
-        "partition.h": "c"
+        "partition.h": "c",
+        "time.h": "c",
+        "stdio.h": "c",
+        "thread.h": "c",
+        "dependencies.h": "c",
+        "syscall.h": "c",
+        "semaphore.h": "c",
+        "main.h": "c"
     }
 }

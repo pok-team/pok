@@ -120,6 +120,7 @@ void pok_thread_init(void) {
     pok_threads[i].processor_affinity = 0;
     pok_threads[i].weight = 1;
     pok_threads[i].remaining_round = POK_LAB_SCHED_ROUND;
+    pok_threads[i].isThread2 = FALSE;
   }
   pok_idle_thread_init();
 }
@@ -185,6 +186,10 @@ pok_ret_t pok_partition_thread_create(uint32_t *thread_id,
   } else {
     pok_threads[id].remaining_time_capacity = POK_THREAD_DEFAULT_TIME_CAPACITY;
     pok_threads[id].time_capacity = POK_THREAD_DEFAULT_TIME_CAPACITY;
+  }
+  
+  if(attr->isThread2){
+    pok_threads[id].isThread2 = TRUE;
   }
 
   pok_threads[id].processor_affinity =

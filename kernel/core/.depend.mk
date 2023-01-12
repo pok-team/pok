@@ -101,8 +101,9 @@ sched.o: sched.c ../..//kernel/include/arch.h \
  ../..//kernel/include/core/error.h ../..//kernel/include/dependencies.h \
  ../..//kernel/include/core/debug.h \
  ../..//kernel/include/core/instrumentation.h
-my_sched.o: my_sched.c ../..//kernel/include/libc.h \
- ../..//kernel/include/types.h ../..//kernel/include/arch/x86/types.h \
+my_sched.o: my_sched.c ../../mytests/part4/pr1/main.h \
+ ../..//kernel/include/libc.h ../..//kernel/include/types.h \
+ ../..//kernel/include/arch/x86/types.h \
  ../..//kernel/include/core/my_sched.h ../..//kernel/include/core/time.h \
  ../..//kernel/include/errno.h ../..//kernel/include/core/sched.h \
  ../..//kernel/include/core/multiprocessing.h \

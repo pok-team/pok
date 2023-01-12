@@ -19,6 +19,7 @@ __pycache__/
 
 *.img
 *.pid
+*.depend.mk
 .depend
 sizes.c
 venv
