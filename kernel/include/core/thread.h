@@ -65,7 +65,7 @@ typedef struct {
   uint8_t processor_affinity;
   uint8_t weight;
   uint8_t remaining_round;
-  int64_t ab_deadline;
+  int64_t ab_deadline; 
   /* stack pointer
    * FIXME: this is platform-dependent code, we have to handle that ! */
 } pok_thread_t;
@@ -80,6 +80,7 @@ typedef struct {
   uint32_t stack_size;
   pok_state_t state;
   uint8_t weight;
+  bool_t isThread2; //For part4
   bool_t dynamic; // TRUE when creating thread in NORMAL mode
 } pok_thread_attr_t;
 /*
