@@ -14,22 +14,6 @@ multiprocessing.o: multiprocessing.c \
  ../../..//kernel/include/core/schedvalues.h \
  ../../..//kernel/include/core/thread.h \
  ../../..//kernel/include/core/time.h ../../..//kernel/include/libc.h
-exceptions.o: exceptions.c event.h \
- ../../..//kernel/include/arch/x86/interrupt.h \
- ../../..//kernel/include/types.h \
- ../../..//kernel/include/arch/x86/types.h gdt.h \
- ../../..//kernel/include/errno.h ../../..//kernel/include/arch.h \
- ../../..//kernel/include/arch/x86/rendezvous.h \
- ../../..//kernel/include/assert.h \
- ../../..//kernel/include/arch/x86/spinlock.h \
- ../../..//kernel/include/core/multiprocessing.h \
- ../../..//kernel/include/arch/x86/multiprocessing.h \
- ../../..//kernel/include/core/debug.h \
- ../../..//kernel/include/core/error.h \
- ../../..//kernel/include/core/sched.h \
- ../../..//kernel/include/core/schedvalues.h \
- ../../..//kernel/include/core/partition.h \
- ../../..//kernel/include/core/thread.h ../../..//kernel/include/libc.h
 arch.o: arch.c event.h ../../..//kernel/include/arch/x86/interrupt.h \
  ../../..//kernel/include/types.h \
  ../../..//kernel/include/arch/x86/types.h gdt.h \
@@ -63,6 +47,22 @@ syscalls.o: syscalls.c ../../..//kernel/include/core/debug.h \
  ../../..//kernel/include/core/syscall.h event.h \
  ../../..//kernel/include/arch/x86/interrupt.h gdt.h
 pci.o: pci.c
+exceptions.o: exceptions.c event.h \
+ ../../..//kernel/include/arch/x86/interrupt.h \
+ ../../..//kernel/include/types.h \
+ ../../..//kernel/include/arch/x86/types.h gdt.h \
+ ../../..//kernel/include/errno.h ../../..//kernel/include/arch.h \
+ ../../..//kernel/include/arch/x86/rendezvous.h \
+ ../../..//kernel/include/assert.h \
+ ../../..//kernel/include/arch/x86/spinlock.h \
+ ../../..//kernel/include/core/multiprocessing.h \
+ ../../..//kernel/include/arch/x86/multiprocessing.h \
+ ../../..//kernel/include/core/debug.h \
+ ../../..//kernel/include/core/error.h \
+ ../../..//kernel/include/core/sched.h \
+ ../../..//kernel/include/core/schedvalues.h \
+ ../../..//kernel/include/core/partition.h \
+ ../../..//kernel/include/core/thread.h ../../..//kernel/include/libc.h
 interrupt.o: interrupt.c gdt.h ../../..//kernel/include/errno.h \
  ../../..//kernel/include/types.h \
  ../../..//kernel/include/arch/x86/types.h tss.h \
