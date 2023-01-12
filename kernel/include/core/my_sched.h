@@ -12,3 +12,6 @@ uint32_t pok_my_sched_part_rr(const uint32_t, const uint32_t,
 uint32_t pok_my_sched_part_wrr(const uint32_t, const uint32_t,
                                const uint32_t prev_thread,
                                const uint32_t current_thread);
+uint32_t pok_my_sched_part_mlfq(const uint32_t, const uint32_t,
+                               const uint32_t prev_thread,
+                               const uint32_t current_thread);

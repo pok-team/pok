@@ -36,6 +36,8 @@ typedef struct {
   uint32_t state;
   uint8_t weight;
   bool_t dynamic; // TRUE when creating thread in NORMAL mode
+  uint8_t current_queue;
+  uint8_t current_queue_run_time;
 } pok_thread_attr_t;
 
 void pok_thread_init(void);
