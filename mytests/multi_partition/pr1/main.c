@@ -27,7 +27,7 @@ int main() {
   pok_ret_t ret;
   pok_thread_attr_t tattr;
 
-  tattr.period = 200;
+  tattr.period = 500;
   tattr.deadline = 120;
   tattr.time_capacity = 60;
   tattr.processor_affinity = 0;
@@ -36,22 +36,13 @@ int main() {
   ret = pok_thread_create(&tid, &tattr);
   printf("[P1] pok_thread_create (1) return=%d\n", ret);
 
-  tattr.period = tattr.deadline = 500;
+  tattr.period = tattr.deadline = 400;
   tattr.time_capacity = 100;
   tattr.processor_affinity = 0;
   tattr.entry = task;
 
   ret = pok_thread_create(&tid, &tattr);
   printf("[P1] pok_thread_create (2) return=%d\n", ret);
-
-  tattr.period = tattr.deadline = 400;
-  tattr.time_capacity = 140;
-  tattr.priority = 40;
-  tattr.processor_affinity = 0;
-  tattr.entry = task;
-
-  ret = pok_thread_create(&tid, &tattr);
-  printf("[P1] pok_thread_create (3) return=%d\n", ret);
 
   pok_partition_set_mode(POK_PARTITION_MODE_NORMAL);
   pok_thread_wait_infinite();

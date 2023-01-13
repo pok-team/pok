@@ -9,11 +9,13 @@
 #define POK_CONFIG_NB_LOCKOBJECTS 0
 #define POK_CONFIG_NB_PARTITIONS 1
 #define POK_CONFIG_NB_PROCESSORS 1
-#define POK_CONFIG_NB_THREADS 22
+#define POK_CONFIG_NB_THREADS 7
+#define POK_NEEDS_LIGHTER_REPORT 1
+#define POK_ISAPP 1
 #define POK_CONFIG_PARTITIONS_NLOCKOBJECTS                                     \
   { 1 }
 #define POK_CONFIG_PARTITIONS_NTHREADS                                         \
-  { 20 }
+  { 5 }
 #define POK_CONFIG_PARTITIONS_SCHEDULER                                        \
   { POK_MY_SCHED_PRIO_EDF}
 #define POK_CONFIG_PARTITIONS_SIZE                                             \
@@ -22,10 +24,10 @@
   { 1 }
 #define POK_CONFIG_PROGRAM_NAME                                                \
   { "pr1/pr1.elf" }
-#define POK_CONFIG_SCHEDULING_MAJOR_FRAME 5000
+#define POK_CONFIG_SCHEDULING_MAJOR_FRAME 2000000000
 #define POK_CONFIG_SCHEDULING_NBSLOTS 1
 #define POK_CONFIG_SCHEDULING_SLOTS                                            \
-  { 5000 }
+  { 2000000000 }
 #define POK_CONFIG_SCHEDULING_SLOTS_ALLOCATION                                 \
   { 0 }
 
@@ -36,12 +38,6 @@
 #define POK_NEEDS_THREAD_SLEEP 1
 #define POK_NEEDS_THREAD_SUSPEND 1
 #define POK_NEEDS_TIME 1
-
-#define POK_NEEDS_THREADS 1
-#define POK_NEEDS_PARTITION 1
-#define POK_NEEDS_SCHED
-#define POK_CONFIG_NEEDS_FUNC_GETCHAR 1
-#define POK_NEEDS_LIGHTER_REPORT 1
 
 typedef enum {
   pok_part_identifier_pr1 = 0

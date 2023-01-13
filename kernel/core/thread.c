@@ -120,6 +120,7 @@ void pok_thread_init(void) {
     pok_threads[i].processor_affinity = 0;
     pok_threads[i].weight = 1;
     pok_threads[i].remaining_round = POK_LAB_SCHED_ROUND;
+    pok_threads[i].round = 0;
   }
   pok_idle_thread_init();
 }

@@ -1,45 +1,36 @@
-atoi.o: atoi.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+streq.o: streq.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-streq.o: streq.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+atoi.o: atoi.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-strlen.o: strlen.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+strlen.o: strlen.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-strcmp.o: strcmp.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+strcmp.o: strcmp.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-memcmp.o: memcmp.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+memcmp.o: memcmp.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-strcpy.o: strcpy.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+strcpy.o: strcpy.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-itoa.o: itoa.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+itoa.o: itoa.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-memcpy.o: memcpy.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+memcpy.o: memcpy.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h
-memset.o: memset.c \
- /home/zyt/Desktop/pok/mytests/part4_prio_edf/pr1/deployment.h \
+memset.o: memset.c /mnt/hgfs/pok/mytests/semaphores/pr2/deployment.h \
  ../../..//libpok/include/core/dependencies.h \
  ../../..//libpok/include/libc/string.h ../../..//libpok/include/types.h \
  ../../..//libpok/include/arch/x86/types.h

@@ -64,6 +64,7 @@ typedef struct {
   uint8_t weight;
   uint8_t remaining_round;
   int64_t ab_deadline;
+  uint32_t round;
   /* stack pointer
    * FIXME: this is platform-dependent code, we have to handle that ! */
 } pok_thread_t;
