@@ -4,6 +4,9 @@
         "types.h": "c",
         "my_sched.h": "c",
         "libc.h": "c",
-        "partition.h": "c"
+        "partition.h": "c",
+        "semaphore.h": "c",
+        "iosfwd": "c",
+        "cmath": "c"
     }
 }
