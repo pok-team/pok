@@ -7,6 +7,16 @@
         "partition.h": "c",
         "semaphore.h": "c",
         "iosfwd": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "cstddef": "c",
+        "deque": "c",
+        "limits": "c",
+        "memory": "c",
+        "system_error": "c",
+        "vector": "c",
+        "xiosbase": "c",
+        "xlocale": "c",
+        "xstring": "c",
+        "xutility": "c"
     }
 }

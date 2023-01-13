@@ -81,6 +81,7 @@ void pok_partition_setup_scheduler(const uint8_t pid) {
     break;
   case POK_MY_SCHED_PRIO_EDF:
     pok_partitions[pid].sched_func = &pok_my_sched_part_prio_edf;
+    break;
   case POK_MY_SCHED_MLFQ:
     pok_partitions[pid].sched_func = &pok_my_sched_part_mlfq;
     break;
