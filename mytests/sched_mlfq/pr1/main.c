@@ -28,7 +28,7 @@ int main() {
   pok_thread_attr_t tattr;
 
   tattr.period = 500;
-  tattr.time_capacity = 60;
+  tattr.time_capacity = 100;
   tattr.processor_affinity = 0;
   tattr.entry = task;
   tattr.current_queue = 0;
@@ -38,7 +38,7 @@ int main() {
   printf("[P1] pok_thread_create (1) return=%d\n", ret);
 
   tattr.period = 500;
-  tattr.time_capacity = 100;
+  tattr.time_capacity = 160;
   tattr.processor_affinity = 0;
   tattr.entry = task;
   tattr.current_queue = 0;
@@ -48,7 +48,7 @@ int main() {
   printf("[P1] pok_thread_create (2) return=%d\n", ret);
 
   tattr.period = 500;
-  tattr.time_capacity = 140;
+  tattr.time_capacity = 200;
   tattr.processor_affinity = 0;
   tattr.entry = task;
   tattr.current_queue = 0;

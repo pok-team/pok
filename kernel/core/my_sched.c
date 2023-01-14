@@ -297,10 +297,11 @@ uint32_t pok_my_sched_part_mlfq(const uint32_t index_low, const uint32_t index_h
   uint32_t elected, from;
   // uint8_t current_proc = pok_get_proc_id();
   uint32_t res = IDLE_THREAD;
+  pok_threads[IDLE_THREAD].current_queue = QUEUE_NUMBER;
   from = current_thread == IDLE_THREAD? prev_thread:current_thread;
   elected = from;
   do {
-      if(((unsigned)(POK_GETTICK())!=0) && ((unsigned)(POK_GETTICK())%RESET == 0))
+      if((elected!=IDLE_THREAD) && ((unsigned)(POK_GETTICK())!=0) && ((unsigned)(POK_GETTICK())%RESET == 0))
       {
         pok_threads[elected].current_queue = 0;
         pok_threads[elected].current_queue_run_time = 0;
@@ -316,7 +317,7 @@ uint32_t pok_my_sched_part_mlfq(const uint32_t index_low, const uint32_t index_h
   } while (elected != from);
 
 
-  if(pok_threads[res].remaining_time_capacity == pok_threads[res].time_capacity)
+  if((res != IDLE_THREAD) && (pok_threads[res].remaining_time_capacity == pok_threads[res].time_capacity))
   {
     pok_threads[res].current_queue = 0;
     pok_threads[res].current_queue_run_time = 0;
@@ -336,6 +337,8 @@ uint32_t pok_my_sched_part_mlfq(const uint32_t index_low, const uint32_t index_h
   
   #ifdef POK_NEEDS_DEBUG
     uint8_t current_proc = pok_get_proc_id();
+
+
     if(flag && res != IDLE_THREAD){
       printf("P%hhdT%d: Decrease to queue:%u at %u\n",
       current_proc,
@@ -344,7 +347,6 @@ uint32_t pok_my_sched_part_mlfq(const uint32_t index_low, const uint32_t index_h
       (unsigned)(POK_GETTICK()));
     }
 
-    // printf("--- Processor %hhd, Time: %u \n",current_proc,(unsigned)(POK_GETTICK()));
     if(((unsigned)(POK_GETTICK())!=0) && ((unsigned)(POK_GETTICK())%RESET == 0)){
         printf("RESET happen at %u.\n",(unsigned)(POK_GETTICK()));
     }
